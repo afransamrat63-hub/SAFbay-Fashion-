@@ -426,6 +426,244 @@ async function loadProducts() {
     box.appendChild(item);
   });
 }
+<section class="safbay-shop">
+  <header class="safbay-heading">
+    <p>SAFBAY FASHION • NEW COLLECTION</p>
+    <h2>Wear Your <span>Identity.</span></h2>
+    <div class="safbay-filters">
+      <button type="button" data-filter="All">All</button>
+      <button type="button" data-filter="Shirt">Shirts</button>
+      <button type="button" data-filter="T-Shirt">T-Shirts</button>
+      <button type="button" data-filter="Panjabi">Panjabi</button>
+      <button type="button" data-filter="Pant">Pants</button>
+    </div>
+  </header>
 
+  <div class="safbay-grid" id="safbayProducts"></div>
+</section>
+
+<style>
+.safbay-shop {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px 12px;
+  color: #171717;
+  font-family: Arial, sans-serif;
+}
+.safbay-heading {
+  text-align: center;
+  margin-bottom: 26px;
+}
+.safbay-heading > p {
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.safbay-heading h2 {
+  font-size: 30px;
+  margin: 14px 0 22px;
+}
+.safbay-heading h2 span {
+  font-weight: 400;
+}
+.safbay-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+}
+.safbay-filters button {
+  padding: 9px 12px;
+  background: white;
+  color: #111;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.safbay-filters button.active,
+.safbay-filters button:hover {
+  background: #111;
+  color: white;
+}
+.safbay-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.safbay-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 0;
+  background: #fff;
+}
+.safbay-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: #f3f3f3;
+}
+.safbay-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.safbay-tag {
+  position: absolute;
+  top: 8px;
+  left: 7px;
+  padding: 5px 7px;
+  background: #111;
+  color: white;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+.safbay-info {
+  padding: 11px;
+}
+.safbay-category {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #777;
+}
+.safbay-info h3 {
+  font-size: 13px;
+  line-height: 1.4;
+  min-height: 36px;
+  margin: 8px 0;
+}
+.safbay-price {
+  font-size: 17px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.safbay-order {
+  display: block;
+  padding: 12px 4px;
+  text-align: center;
+  text-decoration: none;
+  background: #111;
+  color: white;
+  font-size: 10px;
+  letter-spacing: 1px;
+  border-radius: 4px;
+}
+.safbay-order:hover {
+  background: #333;
+}
+@media (min-width: 700px) {
+  .safbay-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+</style>
+
+<script>
+(() => {
+  // Replace these demo image URLs with your own product photos.
+  const products = [
+    {name:"Classic White Shirt",cat:"Shirt",price:750,tag:"POPULAR"},
+    {name:"Black Casual Shirt",cat:"Shirt",price:850,tag:"NEW"},
+    {name:"Striped Formal Shirt",cat:"Shirt",price:900,tag:""},
+    {name:"Oversized Shirt",cat:"Shirt",price:950,tag:"TRENDING"},
+
+    {name:"Oversized Black Tee",cat:"T-Shirt",price:550,tag:"BESTSELLER"},
+    {name:"Essential White Tee",cat:"T-Shirt",price:450,tag:""},
+    {name:"Graphic Print Tee",cat:"T-Shirt",price:650,tag:"NEW"},
+    {name:"Premium Polo Tee",cat:"T-Shirt",price:700,tag:"POPULAR"},
+
+    {name:"Classic White Panjabi",cat:"Panjabi",price:1200,tag:""},
+    {name:"Black Premium Panjabi",cat:"Panjabi",price:1450,tag:"POPULAR"},
+    {name:"Navy Blue Panjabi",cat:"Panjabi",price:1350,tag:"NEW"},
+    {name:"Embroidered Panjabi",cat:"Panjabi",price:1800,tag:"PREMIUM"},
+
+    {name:"Relaxed Baggy Jeans",cat:"Pant",price:1250,tag:"TRENDING"},
+    {name:"Slim Fit Jeans",cat:"Pant",price:1100,tag:""},
+    {name:"Urban Cargo Pants",cat:"Pant",price:950,tag:"POPULAR"},
+    {name:"Wide-Leg Pants",cat:"Pant",price:1050,tag:"NEW"},
+    {name:"Classic Chinos",cat:"Pant",price:900,tag:""},
+    {name:"Formal Trousers",cat:"Pant",price:1000,tag:""},
+    {name:"Casual Joggers",cat:"Pant",price:800,tag:""},
+    {name:"Denim Pants",cat:"Pant",price:1150,tag:""}
+  ];
+
+  const grid = document.getElementById("safbayProducts");
+  const filters = document.querySelector(".safbay-filters");
+
+  // Change to your WhatsApp number, including country code.
+  const whatsapp = "8801XXXXXXXXX";
+
+  function render(category = "All") {
+    grid.replaceChildren();
+
+    products
+      .filter(p => category === "All" || p.cat === category)
+      .forEach((p, i) => {
+        const card = document.createElement("article");
+        card.className = "safbay-card";
+
+        const photo = document.createElement("div");
+        photo.className = "safbay-photo";
+
+        const img = document.createElement("img");
+        img.src = "https://placehold.co/500x625/f0f0f0/222222?text=" +
+          encodeURIComponent(p.name);
+        img.alt = p.name;
+        img.loading = "lazy";
+        photo.appendChild(img);
+
+        if (p.tag) {
+          const tag = document.createElement("span");
+          tag.className = "safbay-tag";
+          tag.textContent = p.tag;
+          photo.appendChild(tag);
+        }
+
+        const info = document.createElement("div");
+        info.className = "safbay-info";
+
+        const cat = document.createElement("div");
+        cat.className = "safbay-category";
+        cat.textContent = p.cat.toUpperCase();
+
+        const name = document.createElement("h3");
+        name.textContent = p.name;
+
+        const price = document.createElement("p");
+        price.className = "safbay-price";
+        price.textContent = "৳" + p.price.toLocaleString("en-BD");
+
+        const order = document.createElement("a");
+        order.className = "safbay-order";
+        order.textContent = "ORDER NOW ↗";
+        order.target = "_blank";
+        order.rel = "noopener";
+        order.href = "https://wa.me/" + whatsapp +
+          "?text=" + encodeURIComponent(
+            "Hello SAFbay Fashion, I want to order: " +
+            p.name + " - ৳" + p.price
+          );
+
+        info.append(cat, name, price, order);
+        card.append(photo, info);
+        grid.appendChild(card);
+      });
+  }
+
+  filters.addEventListener("click", event => {
+    const button = event.target.closest("button[data-filter]");
+    if (!button) return;
+
+    filters.querySelectorAll("button").forEach(b => {
+      b.classList.toggle("active", b === button);
+    });
+
+    render(button.dataset.filter);
+  });
+
+  filters.querySelector('[data-filter="All"]').classList.add("active");
+  render();
+})();
+</script>
 loadProducts();
 </script>
