@@ -58,7 +58,7 @@ footer{background:#111;color:white;text-align:center;padding:25px;margin-top:25p
 <h2>🛒 Your Shopping Cart</h2>
 <div class="cart">
 <div id="cartItems">Your cart is empty.</div>
-<h3>Total: ₹<span id="total">0</span></h3>
+<h3>Total: ৳<span id="total">0</span></h3>
 <h3>Delivery Details</h3>
 <form id="orderForm">
 <input id="customer" placeholder="Full Name" required>
@@ -125,7 +125,7 @@ if(!selected.length){alert("Please add a product first.");return;}
 const name=document.getElementById("customer").value.trim();
 const phone=document.getElementById("phone").value.trim();
 const address=document.getElementById("address").value.trim();
-const lines=selected.map(p=>p.name+" x "+cart[p.id]+" = Rs. "+p.price*cart[p.id]);
+const lines=selected.map(p=>p.name+" x "+cart[p.id]+" = ৳. "+p.price*cart[p.id]);
 const total=selected.reduce((s,p)=>s+p.price*cart[p.id],0);
 const message="SAFbay Fashion Order\nName: "+name+"\nPhone: "+phone+"\nAddress: "+address+"\n\n"+lines.join("\n")+"\n\nTotal: Rs. "+total;
 const storeNumber="8801349819002";
@@ -141,3 +141,57 @@ showCart();
 </script>
 </body>
 </html>
+<section id="store">
+  <h2>SAFbay Fashion Store</h2>
+  <div id="products">Loading products...</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL";
+const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function loadProducts() {
+  const box = document.getElementById("products");
+
+  const { data, error } = await db
+    .from("products")
+    .select("*");
+
+  if (error) {
+    box.textContent = "Products load failed: " + error.message;
+    console.error(error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    box.textContent = "No products found.";
+    return;
+  }
+
+  box.innerHTML = "";
+
+  data.forEach(product => {
+    const item = document.createElement("div");
+    const name = document.createElement("h3");
+    const price = document.createElement("p");
+
+    name.textContent =
+      product.name || product.title || "Product";
+
+    price.textContent =
+      "৳" + (product.price ?? "Price unavailable");
+
+    item.append(name, price);
+    box.appendChild(item);
+  });
+}
+
+loadProducts();
+</script>
