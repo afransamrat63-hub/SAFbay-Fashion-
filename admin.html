@@ -50,16 +50,16 @@
   </main>
 
 <script>
-const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_OR_ANON_KEY";
+const SUPABASE_URL = "https://jjhlorohywovxclsohya.supabase.co";
+const SUPABASE_KEY = "sb_publishable_iHP7lbwCxGJdL37p-uAiYQ_n_xCaZ7D";
 
 const statusBox = document.getElementById("status");
 let db = null;
 let editingId = null;
 let currentImage = "";
 
-if (!SUPABASE_URL.startsWith("https://") ||
-    SUPABASE_KEY.startsWith("PASTE_")) {
+if (!SUPABASE_URL.startsWith("https://jjhlorohywovxclsohya") ||
+    SUPABASE_KEY.startsWith("sb_publishable_iHP7lbwCxGJdL37p-uAiYQ_n_xCaZ7D_")) {
   statusBox.textContent =
     "Setup needed: add your Supabase Project URL and public key in this file.";
 } else {
