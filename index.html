@@ -90,7 +90,7 @@ el.innerHTML=products.map(p=>`
 <img src="${p.img}" alt="${p.name}">
 <div class="info">
 <h3>${p.name}</h3>
-<p class="price">₹${p.price}</p>
+<p class="price">৳${p.price}</p>
 <button class="btn" onclick="addToCart(${p.id})">ADD TO CART</button>
 </div></article>`).join("");
 }
@@ -111,7 +111,7 @@ const selected=products.filter(p=>cart[p.id]);
 document.getElementById("count").textContent=selected.reduce((s,p)=>s+cart[p.id],0);
 document.getElementById("cartItems").innerHTML=selected.length?
 selected.map(p=>`<div class="cartrow">
-<span>${p.name}<br>₹${p.price} × ${cart[p.id]}</span>
+<span>${p.name}<br>৳${p.price} × ${cart[p.id]}</span>
 <span><button onclick="changeQty(${p.id},-1)">−</button>
 <button onclick="changeQty(${p.id},1)">+</button></span>
 </div>`).join(""):"Your cart is empty.";
@@ -127,7 +127,7 @@ const phone=document.getElementById("phone").value.trim();
 const address=document.getElementById("address").value.trim();
 const lines=selected.map(p=>p.name+" x "+cart[p.id]+" = ৳. "+p.price*cart[p.id]);
 const total=selected.reduce((s,p)=>s+p.price*cart[p.id],0);
-const message="SAFbay Fashion Order\nName: "+name+"\nPhone: "+phone+"\nAddress: "+address+"\n\n"+lines.join("\n")+"\n\nTotal: Rs. "+total;
+const message="SAFbay Fashion Order\nName: "+name+"\nPhone: "+phone+"\nAddress: "+address+"\n\n"+lines.join("\n")+"\n\nTotal: Tk. "+total;
 const storeNumber="8801349819002";
 if(storeNumber.includes("X")){
 alert("WhatsApp চালু করতে কোডে 8801349819002এর জায়গায় দোকানের WhatsApp নম্বর বসাতে হবে।");
