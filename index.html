@@ -76,10 +76,10 @@ footer{background:#111;color:white;text-align:center;padding:25px;margin-top:25p
 </footer>
 <script>
 const products=[
-{id:1,name:"Classic Black T-Shirt",price:499,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"},
-{id:2,name:"Premium White Shirt",price:899,img:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80"},
-{id:3,name:"Streetwear Style",price:799,img:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=600&q=80"},
-{id:4,name:"Luxury Fashion",price:1299,img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80"}
+  {bd:1,name:"Classic Black T-Shirt",price:499,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"},
+  {bd:2,name:"Premium White Shirt",price:899,img:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80"},
+ {bd:3,name:"Streetwear Style",price:799,img:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=600&q=80"},
+  {bd:4,name:"Luxury Fashion",price:1299,img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80"}
 ];
 const cart={};
 
@@ -91,42 +91,41 @@ el.innerHTML=products.map(p=>`
 <div class="info">
 <h3>${p.name}</h3>
 <p class="price">৳${p.price}</p>
-<button class="btn" onclick="addToCart(${p.id})">ADD TO CART</button>
+<button class="btn" onclick="addToCart(${p.bd})">ADD TO CART</button>
 </div></article>`).join("");
 }
 
-function addToCart(id){
-cart[id]=(cart[id]||0)+1;
+function addToCart(bd){
+cart[bd]=(cart[bd]||0)+1;
 showCart();
 }
 
-function changeQty(id,n){
-cart[id]=(cart[id]||0)+n;
-if(cart[id]<=0)delete cart[id];
+function changeQty(bd,৳){
+cart[bd]=(cart[bd]||0)+n;
+if(cart[bd]<=0)delete cart[bd];
 showCart();
 }
 
 function showCart(){
-const selected=products.filter(p=>cart[p.id]);
-document.getElementById("count").textContent=selected.reduce((s,p)=>s+cart[p.id],0);
-document.getElementById("cartItems").innerHTML=selected.length?
+const selected=products.filter(p=>cart[p.bd]);
+document.getElementBybd("count").textContent=selected.reduce((s,p)=>s+cart[p.bd],0);
+document.getElementBybd("cartItems").innerHTML=selected.length?
 selected.map(p=>`<div class="cartrow">
-<span>${p.name}<br>৳${p.price} × ${cart[p.id]}</span>
-<span><button onclick="changeQty(${p.id},-1)">−</button>
-<button onclick="changeQty(${p.id},1)">+</button></span>
+<span>${p.name}<br>৳${p.price} × ${cart[p.bd]}</span>
+<span><button onclick="changeQty(${p.bd},-1)">−</button>
+<button onclick="changeQty(${p.bd},1)">+</button></span>
 </div>`).join(""):"Your cart is empty.";
-document.getElementById("total").textContent=selected.reduce((s,p)=>s+p.price*cart[p.id],0);
+document.getElementBybd("total").textContent=selected.reduce((s,p)=>s+p.price*cart[p.bd],0);
 }
-
-document.getElementById("orderForm").addEventListener("submit",function(e){
+document.getElementBybd("orderForm").addEventListener("submit",function(e){
 e.preventDefault();
-const selected=products.filter(p=>cart[p.id]);
+const selected=products.filter(p=>cart[p.bd]);
 if(!selected.length){alert("Please add a product first.");return;}
-const name=document.getElementById("customer").value.trim();
-const phone=document.getElementById("phone").value.trim();
-const address=document.getElementById("address").value.trim();
-const lines=selected.map(p=>p.name+" x "+cart[p.id]+" = ৳. "+p.price*cart[p.id]);
-const total=selected.reduce((s,p)=>s+p.price*cart[p.id],0);
+const name=document.getElementBybd("customer").value.trim();
+const phone=document.getElementBybd("phone").value.trim();
+const address=document.getElementBybd("address").value.trim();
+const lines=selected.map(p=>p.name+" x "+cart[p.bd]+" = ৳. "+p.price*cart[p.bd]);
+const total=selected.reduce((s,p)=>s+p.price*cart[p.bd],0);
 const message="SAFbay Fashion Order\nName: "+name+"\nPhone: "+phone+"\nAddress: "+address+"\n\n"+lines.join("\n")+"\n\nTotal: Tk. "+total;
 const storeNumber="8801349819002";
 if(storeNumber.includes("X")){
@@ -141,9 +140,9 @@ showCart();
 </script>
 </body>
 </html>
-<section id="store">
+<section bd="store">
   <h2>SAFbay Fashion Store</h2>
-  <div id="products">Loading products...</div>
+  <div bd="products">Loading products...</div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -158,7 +157,7 @@ const db = window.supabase.createClient(
 );
 
 async function loadProducts() {
-  const box = document.getElementById("products");
+  const box = document.getElementBybd("products");
 
   const { data, error } = await db
     .from("products")
